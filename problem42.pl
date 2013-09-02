@@ -33,7 +33,7 @@ print "result: $result\n";
 
 sub  getTriangleNums(){
 	my $max = $_[0];
-	@result = ();
+	my @result = ();
 	for(my $i = 1;;$i++){
 		$triangleNum = 0.5 * $i * ($i + 1);
 		if ($triangleNum > $max){
@@ -45,9 +45,8 @@ sub  getTriangleNums(){
 }
 
 sub getMaxLength(){
-	my @words = @{$_[0]};
 	$maxLength = 0;
-	foreach(@words){
+	foreach(@{$_[0]}){
 		if (length $_ > $maxLength){
 			$maxLength = length $_;
 		}
