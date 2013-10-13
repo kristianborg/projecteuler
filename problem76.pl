@@ -1,5 +1,5 @@
 use strict;
-# 50=2; 60=6; 70=20; 80=105; 90=420; 100=
+my @cache;
 my $target = 100;
 my $result = findSummation($target, $target - 1);
 print "result: $result\n";
@@ -11,6 +11,11 @@ sub findSummation(){
 		1;
 	}
 	
+	my $key = 100 * $target + $maxDigit;
+	if ($cache[$key]){
+		return $cache[$key];
+	}
+	
 	my $result = 0;
 	for(my $i = 1; $i <= $maxDigit && $i < $target; $i++){
 		$result += findSummation($target - $i, $i);
@@ -18,6 +23,8 @@ sub findSummation(){
 	if ($target <= $maxDigit){
 		$result++;
 	}
+	
+	$cache[$key] = $result;
 	return $result;
 }
 
