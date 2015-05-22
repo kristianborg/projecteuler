@@ -1,7 +1,7 @@
 use strict;
 use POSIX;
 
-my $max = 50;
+my $max = 2;
 my $numResults=0;
 for (my $x1 = 0; $x1 <= $max; $x1++){
 	print "processing $x1\n";
