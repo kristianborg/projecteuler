@@ -1,9 +1,5 @@
 package nl.krisborg.projecteuler.problems;
 
-import java.math.BigDecimal;
-
-import static java.math.MathContext.DECIMAL128;
-
 public class Problem108 {
 
     private void run(int targetDistinctSolutions) {
@@ -18,7 +14,7 @@ public class Problem108 {
 
     private int  getNumFactors(long n) {
         int numSolutions = 0;
-        for (long x = n + 1;;  x++) {
+        for (long x = n + 1; x <= 2 * n; x++) {
 
             /*
              * We have 1/n.
@@ -37,25 +33,15 @@ public class Problem108 {
              * 4. (x*n) % (x-n) == 0
              *
              * If this is the case, we have found the second solution
-             * 5 .y = (x-n) / (x*n)
+             * 5. y = (x-n) / (x*n)
              */
 
             // we start by the check from formula (4):
             if (((x * n) % (x - n)) == 0) {
                 // now we can get y with formalue (5)
-                long y =  (x*n) / (x-n);
-                System.out.println(String.format("1/%d = 1/%d + 1/%d", n, x, y));
+                // long y =  (x*n) / (x-n);
+                // System.out.println(String.format("1/%d = 1/%d + 1/%d", n, x, y));
                 numSolutions++;
-
-                // we keep going untill 1/x < 1/y,
-                BigDecimal solution1 = new BigDecimal(1, DECIMAL128).divide(new BigDecimal(x), DECIMAL128);
-                BigDecimal solution2 = new BigDecimal(1, DECIMAL128).divide(new BigDecimal(y), DECIMAL128);
-                if (solution1.compareTo(solution2) <= 0) {
-                    if (x > 2*n) {
-                        new String();
-                    }
-                    break;
-                }
             }
         }
         //System.out.println(String.format("Total number of solutions for %d: %d", n, numSolutions));
@@ -64,6 +50,9 @@ public class Problem108 {
     }
 
     public static void main(String[] args) {
+        long before = System.currentTimeMillis();
         new Problem108().run(1000);
+        long time = System.currentTimeMillis() - before;
+        System.out.println("Took " + time + "ms");
     }
 }
