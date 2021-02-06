@@ -9,6 +9,42 @@ import java.util.List;
 
 public abstract class PrimeHelper {
 
+  private static int primeSize = 1;
+  private static List<Integer> primes;
+
+  public static List<Integer> getPrimeFactors(int x) {
+    if (primes == null || primeSize < x) {
+      if (x / primeSize < 2) {
+        // if the difference between the current prime list and new prime list is marginal, double the prime size
+        primeSize = primeSize * 2;
+      } else {
+        primeSize = x;
+      }
+      primes = getPrimes(primeSize);
+    }
+    List<Integer> result = new ArrayList<>();
+    for (int prime : primes) {
+      while(x % prime == 0) {
+        x /= prime;
+        result.add(prime);
+      }
+      if (x == 1) {
+        break;
+      }
+    }
+    return result;
+  }
+
+  public static long getGcd(long x, long y) {
+    if (x < y) {
+      throw new RuntimeException("x should be larger than y");
+    } else if (y == 0) {
+      return x;
+    } else {
+      return getGcd(y, x % y);
+    }
+  }
+
   public static List<Integer> getPrimes(int max) {
     if (max < 2) {
       return new ArrayList<>();
