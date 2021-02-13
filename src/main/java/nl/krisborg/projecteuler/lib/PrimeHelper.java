@@ -9,21 +9,21 @@ import java.util.List;
 
 public abstract class PrimeHelper {
 
-  private static int primeSize = 1;
+  private static int lastPrime = 0;
   private static List<Integer> primes;
 
-  public static List<Integer> getPrimeFactors(int x) {
-    if (primes == null || primeSize < x) {
-      if (x / primeSize < 2) {
-        // if the difference between the current prime list and new prime list is marginal, double the prime size
-        primeSize = primeSize * 2;
-      } else {
-        primeSize = x;
-      }
-      primes = getPrimes(primeSize);
+  public static List<Integer> getPrimeFactors(long x) {
+    if (primes == null) {
+      populatePrimes(10000);
     }
+
+    int primePointer = 0;
     List<Integer> result = new ArrayList<>();
-    for (int prime : primes) {
+    while(true) {
+      if (primePointer == primes.size()) {
+        populatePrimes(lastPrime * 2);
+      }
+      int prime = primes.get(primePointer);
       while(x % prime == 0) {
         x /= prime;
         result.add(prime);
@@ -31,8 +31,14 @@ public abstract class PrimeHelper {
       if (x == 1) {
         break;
       }
+      primePointer++;
     }
     return result;
+  }
+
+  private static void populatePrimes(int maxPrime) {
+    primes = getPrimes(maxPrime);
+    lastPrime = primes.get(primes.size() - 1);
   }
 
   public static long getGcd(long x, long y) {
